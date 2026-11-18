@@ -27,8 +27,8 @@ const CONFIG = {
 
   // 💌 LỜI CHÚC — mỗi phần tử là một đoạn văn.
   wishes: [
-    "Chúc mừng sinh nhật cô công chúa bé nhỏ nhé,",
-    "chúc Nhi tuổi mới sẽ luôn xinh đẹp, kiếm thật nhiều tiền, thực hiện được hết những dự định mà bản thân đặt ra nhé."
+    "Chúc mừng sinh nhật cô công chúa nhỏ!",
+    "Chúc Nhi bước sang tuổi mới luôn xinh đẹp, rạng rỡ, kiếm thật nhiều tiền và biến mọi dự định của mình thành hiện thực nhé."
   ],
 
   // 💌 THƯ TAY: hiện trên tấm thiệp, chữ chạy từ từ từ trái sang phải (sau khi bấm phong thư).
@@ -36,11 +36,11 @@ const CONFIG = {
   // Dùng {date} = ngày-tháng sinh nhật, {age} = tuổi mới.
   letterGreeting: "Gửi Nhi,",
   letterBefore: [
-    "Ngày {date} – ngày bầu trời có thêm một vì sao thật đặc biệt, mang tên Nhi ✨"
+    "Ngày {date}, bầu trời đã đón thêm một vì sao thật đặc biệt, và vì sao ấy mang tên Nhi ✨"
   ],
   letterAfter: [
-    "Mong mỗi ngày của Nhi đều bắt đầu bằng một nụ cười và luôn tràn ngập bình yên, niềm vui cùng những điều dịu dàng nhất.",
-    "Mời Nhi bước vào bầu trời sao được chuẩn bị riêng cho Nhi nhé 💖"
+    "Mong mỗi ngày của Nhi đều bắt đầu bằng một nụ cười và ngập tràn bình yên, niềm vui cùng thật nhiều điều dịu dàng.",
+    "Giờ thì mời Nhi bước vào bầu trời sao mà mình đã chuẩn bị riêng nhé 💖"
   ],
   letterEnd: "Sinh nhật vui vẻ nhé, Nhi 🎂",
   letterBtn: "✨ Mở cả vũ trụ nào",
