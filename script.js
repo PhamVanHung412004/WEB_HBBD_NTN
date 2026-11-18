@@ -28,7 +28,7 @@ const CONFIG = {
   // 💌 LỜI CHÚC — mỗi phần tử là một đoạn văn.
   wishes: [
     "Chúc mừng sinh nhật cô công chúa bé nhỏ nhé,",
-    "chúc bé tuổi mới sẽ luôn xinh đẹp, kiếm thật nhiều tiền, thực hiện được hết những dự định mà bản thân đặt ra nhé."
+    "chúc Nhi tuổi mới sẽ luôn xinh đẹp, kiếm thật nhiều tiền, thực hiện được hết những dự định mà bản thân đặt ra nhé."
   ],
 
   // 💌 THƯ TAY: hiện trên tấm thiệp, chữ chạy từ từ từ trái sang phải (sau khi bấm phong thư).
