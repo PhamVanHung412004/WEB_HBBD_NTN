@@ -27,7 +27,7 @@ const CONFIG = {
 
   // 💌 LỜI CHÚC — mỗi phần tử là một đoạn văn.
   wishes: [
-    "Chúc mừng sinh nhật cô công chúa nhỏ!",
+    "Chúc mừng sinh nhật Nhi!",
     "Chúc Nhi bước sang tuổi mới luôn xinh đẹp, rạng rỡ, kiếm thật nhiều tiền và biến mọi dự định của mình thành hiện thực nhé."
   ],
 
