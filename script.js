@@ -73,10 +73,10 @@ const CONFIG = {
   phonePhotos: [
     { src: "image/1794943489419_108858156700972838_6123196155549620573_a0b20c6d5ceabe0c4dc4dd6b987298e2.jpg", pos: "50% 50%" },
     { src: "image/1795009669035_108858156700972838_6123196155549620573_1a01522fac0103f3f08a94cf187fb879.jpg", pos: "52% 50%" },
-    { src: "image/1795009668987_108858156700972838_6123196155549620573_2cd8186bfbdd949a0c1d73a739e493fb.jpg", pos: "50% 40%" },
-    { src: "image/1795009669061_108858156700972838_6123196155549620573_dbd7f60e34f26a9ac48f22fa826e9bd5.jpg", pos: "0% 30%" },
-    { src: "image/1795009669050_108858156700972838_6123196155549620573_e706f8ffa5b2a93c69562262933b6dcb.jpg", pos: "50% 45%" },
-    { src: "image/1795009669017_108858156700972838_6123196155549620573_16b6e8d7c35b5d3cc48607a9dc0bda98.jpg", pos: "50% 40%" }
+    { src: "image/1795009668987_108858156700972838_6123196155549620573_2cd8186bfbdd949a0c1d73a739e493fb.jpg", pos: "50% 40%", zoom: 1.5, at: "47% 38%" },
+    { src: "image/1795009669061_108858156700972838_6123196155549620573_dbd7f60e34f26a9ac48f22fa826e9bd5.jpg", pos: "0% 30%",  zoom: 1.45, at: "65% 26%" },
+    { src: "image/1795009669050_108858156700972838_6123196155549620573_e706f8ffa5b2a93c69562262933b6dcb.jpg", pos: "50% 45%", zoom: 1.5, at: "52% 43%" },
+    { src: "image/1795009669017_108858156700972838_6123196155549620573_16b6e8d7c35b5d3cc48607a9dc0bda98.jpg", pos: "50% 40%", zoom: 1.5, at: "52% 40%" }
   ],
 
   // Dòng chữ xếp bằng các vì sao ngay phía trên tên crush trên bầu trời
@@ -1280,9 +1280,7 @@ function layoutCake(){
   }
   cake.style.setProperty('--pw',pw+'px'); cake.classList.toggle('sm',pw<100);
   const h=cake.offsetHeight;
-  // Canh theo pixel nguyên và không dùng translate trên cả cụm ảnh để trình duyệt không nội suy làm mềm ảnh.
-  cake.style.left=Math.round((W-cake.offsetWidth)/2)+'px';
-  cake.style.top=Math.round(top+Math.max(0,(availH-h)/2))+'px';
+  cake.style.top=(top+Math.max(0,(availH-h)/2)+h/2)+'px';
 }
 addEventListener('resize',()=>{ if($('#cake').classList.contains('show')) layoutCake(); });
 function toggleCake(show){
