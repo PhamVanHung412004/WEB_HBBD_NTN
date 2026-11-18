@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>🎂 Chúc Mừng Sinh Nhật! 🎉</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Dancing+Script:wght@500;700&family=Pacifico&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ============================================================
+     ✏️ ĐỔI TÊN CRUSH, LỜI CHÚC, NGÀY SINH NHẬT... Ở ĐẦU FILE script.js (khối CONFIG)
+     ============================================================ -->
+
+<!-- 🌌 Bầu trời 360° (vẽ bằng script.js) -->
+<div id="space">
+  <canvas id="sky"></canvas>
+</div>
+
+<div id="balloons"></div>
+<canvas id="confetti"></canvas>
+<button id="musicBtn" title="Bật/tắt nhạc" aria-label="Bật/tắt nhạc">🎵</button>
+<button id="gyroBtn" class="hidden" title="Xoay điện thoại để nhìn quanh" aria-label="Chế độ la bàn">🧭</button>
+
+<!-- MÀN 1: LÁ THƯ + THIÊN HÀ ĐANG CHỤM LẠI THÀNH QUẢ CẦU -->
+<section id="intro" class="screen">
+  <div class="intro-top">
+    <h2 id="introTitle">Có một lá thư dành cho Nhi 💌</h2>
+    <p class="sub" id="introSub"></p>
+    <div id="countdown"></div>
+  </div>
+  <div class="envelope" id="envelope" role="button" aria-label="Mở lá thư">
+    <div class="env-back"></div>
+    <div class="letter"><i></i><i></i><i></i><b>💖</b></div>
+    <div class="env-front"></div>
+    <div class="env-flap"></div>
+    <div class="seal">💖</div>
+  </div>
+  <p class="tap-hint">👆 Chạm vào lá thư để mở cả vũ trụ ra nhé!</p>
+</section>
+
+<!-- MÀN THƯ: thiệp thư tay hiện lời chúc từ từ, bấm nút mới mở vũ trụ -->
+<section id="letterView" class="screen hidden" aria-label="Lá thư chúc mừng sinh nhật">
+  <div id="petals" aria-hidden="true"></div>
+  <article class="card" id="card">
+    <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+    <div class="wax" aria-hidden="true">♥</div>
+    <div class="card-inner" id="cardInner">
+      <p class="card-greet" id="cardGreet"></p>
+      <div class="card-body" id="cardBody"></div>
+      <p class="card-sign" id="cardSign"></p>
+    </div>
+    <button class="btn card-btn" id="cardBtn" type="button"></button>
+  </article>
+  <p class="card-skip" id="cardSkip">chạm vào thiệp để hiện nhanh</p>
+</section>
+
+<!-- MÀN 2: VŨ TRỤ 360° -->
+<section id="main" class="screen hidden">
+  <div class="title-small">🌟 Chúc mừng sinh nhật 🌟</div>
+  <h1 class="rainbow">Happy Birthday!</h1>
+  <div class="name" id="crushName">Nguyễn Thị Nhi</div>
+  <div class="age-chip" id="ageChip"></div>
+
+  <!-- Thẻ lời chúc (hiện/ẩn được) -->
+  <div id="wish" class="glass">
+    <button id="wishClose" aria-label="Đóng lời chúc">✕</button>
+    <h2 id="wishTitle">Lời chúc dành cho Nhi</h2>
+    <div id="wishText"></div>
+    <div id="wishFrom"></div>
+    <div class="hearts"><span>💖</span><span>💜</span><span>💙</span><span>💚</span><span>💛</span><span>🧡</span></div>
+  </div>
+
+  <!-- Lời nhắn của ngôi sao bí mật -->
+  <div id="secret" class="glass">
+    <button id="secretClose" aria-label="Đóng">✕</button>
+    <h2 id="secretTitle"></h2>
+    <div id="secretText"></div>
+    <div class="hearts"><span>💖</span><span>💜</span><span>💙</span><span>💛</span><span>🧡</span></div>
+  </div>
+
+  <!-- Ảnh bánh sinh nhật (hiện sau khi vũ trụ mở) -->
+  <div id="cake" class="glass" role="dialog" aria-label="Bánh sinh nhật">
+    <button id="cakeClose" aria-label="Đóng">✕</button>
+    <div class="phones left" id="phonesL" aria-hidden="true"></div>
+    <div class="phones right" id="phonesR" aria-hidden="true"></div>
+    <figure class="polaroid">
+      <div class="photo"><span class="cake-emoji" id="cakeFallback">🎂</span><img id="cakeImg" alt="Bánh sinh nhật" decoding="async"><i class="shine"></i></div>
+      <figcaption id="cakeCaption"></figcaption>
+    </figure>
+  </div>
+
+</section>
+
+<script src="script.js"></script>
+</body>
+</html>
