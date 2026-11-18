@@ -396,7 +396,9 @@ void main(){
     }
     return [0,1,0];
   }
-  const nStars=mobile?5200:9500;
+  // Giữ bầu trời dày sao nhưng giảm bớt các điểm gần như không thể phân biệt trên màn hình nhỏ.
+  // Mỗi điểm đều phải chiếu lại ở từng frame, nên mức này mượt hơn rõ rệt trên laptop/điện thoại.
+  const nStars=mobile?4200:7800;
   for(let i=0;i<nStars;i++){
     const d=sampleDir(), ci=pickPal(); let r=R(),li=0; for(;li<2;li++){r-=LEVELS[li].p;if(r<0)break;}
     buckets[ci*3+li].arr.push(d[0],d[1],d[2]);
@@ -405,7 +407,7 @@ void main(){
 
   // sao sáng có quầng + tia nhiễu xạ
   const SB=[];
-  const nBright=mobile?170:300;
+  const nBright=mobile?140:240;
   for(let i=0;i<nBright;i++){
     const mag=Math.pow(R(),3);
     SB.push({v:sampleDir(),mag,c:pickPal(),ph:rr(0,TAU),sp:rr(.8,2.6),spiky:mag>.78});
@@ -832,10 +834,16 @@ let cdTimer=null;
 
 /* ---- confetti + pháo hoa (canvas) ---- */
 const cv=$('#confetti'), ctx=cv.getContext('2d');
-let W,H,parts=[];
-function resize(){W=cv.width=innerWidth*devicePixelRatio;H=cv.height=innerHeight*devicePixelRatio;}
+const FX_MOBILE=matchMedia('(pointer:coarse)').matches||innerWidth<700;
+const MAX_PARTS=FX_MOBILE?360:520;
+let W,H,parts=[],fxDpr=1;
+function resize(){
+  // DPR 2–3 làm canvas có số pixel gấp 4–9 lần dù mắt thường gần như không thấy khác biệt.
+  fxDpr=Math.min(devicePixelRatio||1,FX_MOBILE?1.25:1.5);
+  W=cv.width=Math.round(innerWidth*fxDpr); H=cv.height=Math.round(innerHeight*fxDpr);
+}
 addEventListener('resize',resize); resize();
-const DPR=()=>devicePixelRatio||1;
+const DPR=()=>fxDpr;
 
 function confettiBurst(x,y,n=90,power=1){
   for(let i=0;i<n;i++){
@@ -854,35 +862,54 @@ function confettiRain(ms=3500){
   })();
 }
 function firework(x,y){
-  const col=COLORS[(Math.random()*7)|0], n=70;
+  const col=COLORS[(Math.random()*7)|0], n=FX_MOBILE?44:56;
   for(let i=0;i<n;i++){
     const a=i/n*Math.PI*2, v=rand(3,9)*DPR();
     parts.push({x:x*DPR(),y:y*DPR(),vx:Math.cos(a)*v,vy:Math.sin(a)*v,g:.06*DPR(),s:rand(3,5)*DPR(),c:Math.random()<.7?col:'#fff',r:0,vr:0,life:rand(60,100),shape:'s'});
   }
 }
 const HEART_COLORS=['#ff4d9d','#ff7ac6','#ff9fd0','#c77dff','#9b5cff','#ff4d6d','#ffffff'];
+const sparkTextures=new Map();
+function sparkTexture(color){
+  color=color==='#fff'?'#ffffff':color;
+  if(sparkTextures.has(color)) return sparkTextures.get(color);
+  const g=document.createElement('canvas'), s=40; g.width=g.height=s;
+  const x=g.getContext('2d'), r=x.createRadialGradient(s/2,s/2,0,s/2,s/2,s/2);
+  r.addColorStop(0,'#fff'); r.addColorStop(.16,'#fff'); r.addColorStop(.38,color); r.addColorStop(1,'transparent');
+  x.fillStyle=r; x.fillRect(0,0,s,s); sparkTextures.set(color,g); return g;
+}
+COLORS.forEach(sparkTexture);
 function loop(){
+  if(document.hidden||!parts.length){requestAnimationFrame(loop);return;}
   ctx.clearRect(0,0,W,H);
+  if(parts.length>MAX_PARTS) parts.splice(0,parts.length-MAX_PARTS);
   parts=parts.filter(p=>p.life>0 && p.y<H+50 && p.y>-90);
   for(const p of parts){
-    ctx.save(); ctx.translate(p.x,p.y);
     if(p.shape==='h'){                       // trái tim bay lên, đung đưa
       p.ph+=.03; p.x+=Math.sin(p.ph)*p.amp*DPR(); p.y+=p.vy; p.life--;
+      ctx.save(); ctx.translate(p.x,p.y);
       ctx.globalAlpha=Math.min(1,(H-p.y)/(H*.14),p.y/(H*.22),1)*.92; ctx.rotate(Math.sin(p.ph)*.25);
       ctx.shadowColor=p.c; ctx.shadowBlur=16*DPR(); ctx.fillStyle=p.c; heartPath(ctx,p.s); ctx.fill();
+      ctx.restore();
     }else if(p.shape==='hb'){                // trái tim nở ra khi chạm
       p.x+=p.vx; p.y+=p.vy; p.vx*=.96; p.vy=p.vy*.96-.03*DPR(); p.life--;
+      ctx.save(); ctx.translate(p.x,p.y);
       ctx.globalAlpha=Math.min(1,p.life/30); ctx.rotate(p.r);
       ctx.shadowColor=p.c; ctx.shadowBlur=14*DPR(); ctx.fillStyle=p.c; heartPath(ctx,p.s); ctx.fill();
+      ctx.restore();
     }else{
       p.vy+=p.g; p.x+=p.vx; p.y+=p.vy; p.vx*=.985; p.r+=p.vr; p.life--;
-      ctx.rotate(p.r); ctx.globalAlpha=Math.min(1,p.life/30); ctx.fillStyle=p.c;
-      if(p.shape==='c'){ctx.beginPath();ctx.arc(0,0,p.s/2,0,6.28);ctx.fill();}
-      else if(p.shape==='s'){ctx.shadowColor=p.c;ctx.shadowBlur=12;ctx.beginPath();ctx.arc(0,0,p.s/2,0,6.28);ctx.fill();}
-      else ctx.fillRect(-p.s/2,-p.s/4,p.s,p.s/2);
+      ctx.globalAlpha=Math.min(1,p.life/30); ctx.fillStyle=p.c;
+      if(p.shape==='c'){ctx.beginPath();ctx.arc(p.x,p.y,p.s/2,0,6.28);ctx.fill();}
+      else if(p.shape==='s'){
+        // Sprite đã có quầng sáng: tránh shadowBlur đắt đỏ cho hàng trăm hạt ở mỗi frame.
+        const r=p.s*2.6; ctx.drawImage(sparkTexture(p.c),p.x-r,p.y-r,r*2,r*2);
+      }else{
+        ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.r); ctx.fillRect(-p.s/2,-p.s/4,p.s,p.s/2); ctx.restore();
+      }
     }
-    ctx.restore();
   }
+  ctx.globalAlpha=1;
   requestAnimationFrame(loop);
 }
 loop();
@@ -917,7 +944,7 @@ function startAutoFireworks(){
     const n=Math.random()<.4?2:1;
     for(let i=0;i<n;i++) setTimeout(()=>firework(rand(innerWidth*.1,innerWidth*.9),rand(innerHeight*.1,innerHeight*.5)),i*250);
   };
-  shoot(); autoFx=setInterval(shoot,1800);
+  shoot(); autoFx=setInterval(shoot,2200);
 }
 
 /* ---- âm thanh (Web Audio, không cần file ngoài) ---- */
@@ -1164,8 +1191,10 @@ const Phones=(function(){
     const src=(CONFIG.phonePhotos||[]).map(x=>typeof x==='string'?{src:x}:x).filter(x=>x&&x.src);
     let pending=src.length; if(!pending){ ready=true; return; }
     const ok=[];
-    src.forEach((p,i)=>{ const im=new Image();
-      im.onload=()=>{ ok.push([i,p]); fin(); }; im.onerror=()=>fin(); im.src=p.src; });      // bỏ qua ảnh không tải được
+    src.forEach((p,i)=>setTimeout(()=>{ const im=new Image();
+      im.decoding='async'; im.fetchPriority='low';
+      im.onload=()=>{ ok.push([i,p]); fin(); }; im.onerror=()=>fin(); im.src=p.src;
+    },i*160));      // giãn tải/giải mã ảnh để không tranh tài nguyên với hiệu ứng mở thiệp
     function fin(){ if(--pending>0) return; list=ok.sort((a,b)=>a[0]-b[0]).map(x=>x[1]); ready=true; if($('#cake').classList.contains('show')) layoutCake(); }
   }
   function phoneEl(){
