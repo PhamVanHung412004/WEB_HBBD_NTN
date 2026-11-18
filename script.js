@@ -43,7 +43,7 @@ const CONFIG = {
     "Giờ thì mời Nhi bước vào bầu trời sao mà mình đã chuẩn bị riêng nhé 💖"
   ],
   letterEnd: "Sinh nhật vui vẻ nhé, Nhi 🎂",
-  letterBtn: "✨ Mở cả vũ trụ nào",
+  letterBtn: "✨ Nhấn vào đây để mở vũ trụ",
   typeSpeed: 38,          // mili-giây cho mỗi chữ (số càng lớn chữ chạy càng chậm)
 
   // 🎵 NHẠC NỀN: file mp3 trong thư mục "music" (cùng chỗ với index.html).
